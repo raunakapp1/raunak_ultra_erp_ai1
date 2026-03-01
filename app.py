@@ -1,13 +1,15 @@
 import streamlit as st
-from login import login_page
+import sys
+import os
+
+# 🔥 ROOT PATH FIX
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, BASE_DIR)
+
 from dashboard import admin_dashboard
 
-st.set_page_config(page_title="Raunak Ultra ERP AI", layout="wide")
-
-if "logged_in" not in st.session_state:
-    st.session_state.logged_in = False
-
-if not st.session_state.logged_in:
-    login_page()
-else:
+def main():
     admin_dashboard()
+
+if __name__ == "__main__":
+    main()
