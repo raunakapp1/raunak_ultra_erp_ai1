@@ -1,5 +1,2 @@
-def predict_tomorrow_revenue(today_revenue):
-    try:
-        return float(today_revenue) * 1.12
-    except:
-        return 0
+def predict_tomorrow_revenue(today):
+    return float(today) * 1.12
