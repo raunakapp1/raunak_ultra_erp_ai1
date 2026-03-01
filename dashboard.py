@@ -1,13 +1,29 @@
 import streamlit as st
-from ai_layer.forecast_ai import predict_tomorrow_revenue
+import os
+import sys
 
+# --- Path Fix for Streamlit Cloud & Local ---
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+if BASE_DIR not in sys.path:
+    sys.path.append(BASE_DIR)
+
+# --- Safe Import ---
+try:
+    from ai_layer.forecast_ai import predict_tomorrow_revenue
+except ModuleNotFoundError:
+    st.error("❌ ai_layer module load nahi ho raha. Folder structure check karein.")
+    st.stop()
+
+# --- Dashboard Function ---
 def admin_dashboard():
-    st.set_page_config(page_title="Raunak Ultra ERP AI", layout="wide")
+    st.set_page_config(page_title="Ultra ERP AI", layout="wide")
+    st.title("🚀 Ultra ERP AI Dashboard")
 
-    st.title("📊 Raunak Ultra ERP AI Dashboard")
+    st.subheader("📊 Tomorrow Revenue Prediction")
 
-    revenue = st.number_input("Today's Total Revenue", min_value=0.0, step=100.0)
-
-    if st.button("Predict Tomorrow Revenue"):
-        result = predict_tomorrow_revenue(revenue)
-        st.success(f"🔥 Tomorrow Expected Revenue: ₹ {result:,.2f}")
+    try:
+        prediction = predict_tomorrow_revenue()
+        st.success(f"💰 Expected Revenue: ₹ {prediction}")
+    except Exception as e:
+        st.error("AI Model Error:")
+        st.code(str(e))
