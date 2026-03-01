@@ -2,13 +2,12 @@ import streamlit as st
 import sys
 import os
 
-# ---------- PATH FIX ----------
+# 🔥 ROOT PATH FIX
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(BASE_DIR)
+sys.path.insert(0, BASE_DIR)
 
 from ai_layer.forecast_ai import predict_tomorrow_revenue
 
-# ---------- DASHBOARD ----------
 def admin_dashboard():
     st.set_page_config(page_title="Raunak Ultra ERP AI", layout="wide")
 
