@@ -3,12 +3,12 @@ import os
 import sys
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(BASE_DIR)
+sys.path.insert(0, BASE_DIR)
 
 try:
     from ai_layer.forecast_ai import predict_tomorrow_revenue
 except Exception as e:
-    st.error(f"AI Module Load Error: {e}")
+    st.error(f"❌ AI module not loaded. Folder structure check karein.\n\n{e}")
     st.stop()
 
 def admin_dashboard():
