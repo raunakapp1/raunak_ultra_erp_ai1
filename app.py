@@ -1,27 +1,15 @@
 import streamlit as st
-from login import login_page
-from dashboard import admin_dashboard
+from core_app.dashboard import admin_dashboard
 from core_app.guests_engine import guests_page
 
 st.set_page_config(page_title="Raunak Ultra ERP AI", layout="wide")
 
-if "login" not in st.session_state:
-    st.session_state.login = False
+st.sidebar.title("🚀 Ultra ERP AI")
 
-if not st.session_state.login:
-    login_page()
-    st.stop()
+menu = st.sidebar.radio("Navigation", ["Dashboard", "Guest Entry"])
 
-st.sidebar.title("🚀 Navigation")
-
-page = st.sidebar.radio("Go To", ["Dashboard", "Guest Entry"])
-
-if st.sidebar.button("🔓 Logout"):
-    st.session_state.login = False
-    st.experimental_rerun()
-
-if page == "Dashboard":
+if menu == "Dashboard":
     admin_dashboard()
 
-elif page == "Guest Entry":
+elif menu == "Guest Entry":
     guests_page()
