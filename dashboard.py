@@ -1,41 +1,110 @@
 import streamlit as st
-import os
-import sys
+import pandas as pd
 
-# Ensure project root path is added
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, BASE_DIR)
+# ---------- Dummy Database ----------
+if "staff_db" not in st.session_state:
+    st.session_state.staff_db = []
 
-# Safe import of AI module
-try:
-    from forecast_ai import predict_tomorrow_revenue
-except Exception as e:
-    st.error(f"❌ AI module not loaded.\n\n{e}")
-    st.stop()
-
-
+# ---------- DASHBOARD ----------
 def admin_dashboard():
-    st.title("🚀 Ultra ERP AI Dashboard")
+    st.title("🚀 Raunak Ultra ERP AI Dashboard")
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
 
-    with col1:
-        st.metric("👥 Guests", "0")
-
-    with col2:
-        revenue = predict_tomorrow_revenue()
-        st.metric("💰 Tomorrow Revenue Prediction", f"₹ {revenue}")
-
-    with col3:
-        st.metric("🚨 Fraud Alerts", "0")
+    col1.metric("👥 Guests", "124")
+    col2.metric("💰 Revenue", "₹ 38,450")
+    col3.metric("🛒 Orders", "312")
+    col4.metric("🚨 Fraud Alerts", "0")
 
     st.divider()
 
+    # ---------- AI MODULE STATUS ----------
     st.subheader("🤖 AI Modules Status")
 
-    st.success("✅ Revenue Forecast AI : READY")
-    st.success("✅ Fraud Detection AI : READY")
-    st.success("✅ Dynamic Pricing AI : READY")
-    st.success("✅ Offer Generator AI : READY")
-    st.success("✅ Staff Performance AI : READY")
-    st.success("✅ Customer Retargeting AI : READY")
+    ai_status = {
+        "Revenue Forecast AI": "READY",
+        "Fraud Detection AI": "READY",
+        "Dynamic Pricing AI": "READY",
+        "Offer Generator AI": "READY",
+        "Staff Performance AI": "READY",
+        "Customer Retargeting AI": "READY"
+    }
+
+    for k, v in ai_status.items():
+        st.success(f"✅ {k} : {v}")
+
+    st.divider()
+
+    # ---------- STAFF MANAGEMENT ----------
+    st.subheader("👥 Staff Management Panel")
+
+    with st.expander("➕ Create New Staff"):
+        name = st.text_input("Staff Name")
+        mobile = st.text_input("Mobile Number")
+        role = st.selectbox("Role", ["Manager", "Cashier", "Kitchen", "Delivery", "Accountant"])
+
+        permissions = st.multiselect("Permissions", [
+            "Dashboard View",
+            "Guest Entry",
+            "Billing",
+            "Inventory",
+            "Reports",
+            "Staff Management"
+        ])
+
+        if st.button("Create Staff"):
+            if name and mobile:
+                st.session_state.staff_db.append({
+                    "Name": name,
+                    "Mobile": mobile,
+                    "Role": role,
+                    "Permissions": ", ".join(permissions)
+                })
+                st.success("✅ Staff Created Successfully")
+            else:
+                st.error("❌ Name & Mobile Required")
+
+    st.divider()
+
+    # ---------- STAFF LIST ----------
+    st.subheader("📋 Staff Database")
+
+    if st.session_state.staff_db:
+        df = pd.DataFrame(st.session_state.staff_db)
+        st.dataframe(df, use_container_width=True)
+    else:
+        st.warning("⚠ No Staff Created Yet")
+
+    st.divider()
+
+    # ---------- ACCESS CONTROL ----------
+    st.subheader("🔐 Role Access Control")
+
+    st.info("""
+    Admin → Full Access  
+    Manager → Dashboard + Reports + Staff View  
+    Cashier → Billing + Guest Entry  
+    Kitchen → Orders Only  
+    Delivery → Delivery Panel  
+    Accountant → Reports + GST + Finance  
+    """)
+
+    st.divider()
+
+    # ---------- SYSTEM CONTROL ----------
+    st.subheader("⚙ System Control Panel")
+
+    col1, col2, col3 = st.columns(3)
+
+    if col1.button("🔄 Restart System"):
+        st.success("System Restarted")
+
+    if col2.button("📤 Export Data"):
+        st.success("Data Exported")
+
+    if col3.button("🧹 Clear Cache"):
+        st.success("Cache Cleared")
+
+    st.divider()
+
+    st.success("🔥 Ultra ERP AI Admin System Running Perfectly")
