@@ -1,21 +1,22 @@
 import streamlit as st
 
 def login_page():
-    st.title("🔐 Secure Login")
+    st.title("🔐 Login")
 
     users = {
-        "admin": {"password": "1234", "role": "Admin"},
-        "staff": {"password": "1234", "role": "Staff"}
+        "admin": {"password": "admin123", "role": "admin"},
+        "staff1": {"password": "1234", "role": "staff"},
+        "staff2": {"password": "1234", "role": "staff"}
     }
 
     username = st.selectbox("Select User", list(users.keys()))
     password = st.text_input("Password", type="password")
 
     if st.button("Login"):
-        if password == users[username]["password"]:
-            st.session_state.logged_in = True
-            st.session_state.user = username
+        if users[username]["password"] == password:
+            st.session_state.login = True
             st.session_state.role = users[username]["role"]
+            st.success("Login Successful")
             st.experimental_rerun()
         else:
-            st.error("Invalid Password")
+            st.error("Wrong Password")
