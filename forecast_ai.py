@@ -1,2 +1,2 @@
 def predict_tomorrow_revenue():
-    return 124500
+    return 125000   # Dummy AI prediction
