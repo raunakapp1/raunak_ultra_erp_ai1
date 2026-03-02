@@ -9,7 +9,6 @@ def login_page():
     if st.button("Login"):
         if user == "admin" and pwd == "1234":
             st.session_state.login = True
-            st.success("Login Successful")
             st.experimental_rerun()
         else:
-            st.error("Invalid Login")
+            st.error("❌ Invalid Login")
