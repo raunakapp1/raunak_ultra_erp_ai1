@@ -1,13 +1,14 @@
 import streamlit as st
 from login import login_page
 from dashboard import admin_dashboard
-from core_app.guests_engine import guests_page
+from guests_engine import guests_page   # ✅ FIXED IMPORT
 
 st.set_page_config(page_title="Raunak Ultra ERP AI", layout="wide")
 
 # Session init
 if "login" not in st.session_state:
     st.session_state.login = False
+    st.session_state.role = None
 
 # Login flow
 if not st.session_state.login:
