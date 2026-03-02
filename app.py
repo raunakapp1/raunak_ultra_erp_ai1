@@ -8,7 +8,6 @@ st.set_page_config(page_title="Raunak Ultra ERP AI", layout="wide")
 # Session init
 if "login" not in st.session_state:
     st.session_state.login = False
-    st.session_state.role = None
 
 # Login flow
 if not st.session_state.login:
