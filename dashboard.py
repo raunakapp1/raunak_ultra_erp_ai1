@@ -7,18 +7,13 @@ sys.path.append(BASE_DIR)
 
 try:
     from ai_layer.forecast_ai import predict_tomorrow_revenue
-    AI_STATUS = "✅ AI Module Loaded Successfully"
 except Exception as e:
-    AI_STATUS = f"❌ AI Load Error: {e}"
-
+    st.error(f"AI Module Load Error: {e}")
+    st.stop()
 
 def admin_dashboard():
     st.title("🚀 Ultra ERP AI Dashboard")
 
-    st.info(AI_STATUS)
+    revenue = predict_tomorrow_revenue()
 
-    if "❌" not in AI_STATUS:
-        revenue = predict_tomorrow_revenue()
-        st.metric("📈 Tomorrow Revenue Prediction", f"₹ {revenue}")
-    else:
-        st.error("AI Module Load nahi ho raha – folder structure check karein")
+    st.metric("📈 Tomorrow Revenue Prediction", f"₹ {revenue}")
