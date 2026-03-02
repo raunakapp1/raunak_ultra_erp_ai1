@@ -1,17 +1,15 @@
 import streamlit as st
 
 def guests_page():
-    st.title("👥 Guest Entry System")
+    st.title("🧾 Guest Entry System")
 
-    with st.form("guest_form"):
-        name = st.text_input("Customer Name")
-        mobile = st.text_input("Mobile Number")
-        persons = st.number_input("Total Persons", 1, 50)
-        source = st.selectbox("Order Source", ["Walk-in", "Zomato", "Swiggy", "Dine-in", "Takeaway"])
+    name = st.text_input("Guest Name")
+    mobile = st.text_input("Mobile Number")
+    persons = st.number_input("No. of Persons", 1, 50, 1)
+    amount = st.number_input("Bill Amount ₹", 0, 100000, 0)
 
-        submitted = st.form_submit_button("Save Entry")
-
-        if submitted:
+    if st.button("Save Entry"):
+        if name and mobile:
             st.success("✅ Guest Entry Saved Successfully")
-
-    st.info("📊 This data will feed Revenue AI + Retarget AI + Offer AI")
+        else:
+            st.error("❌ Name & Mobile required")
